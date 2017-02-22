@@ -111,10 +111,11 @@
     End Sub
 
     Function GetDBData(ByVal sql As String) As Variant
-        Dim pw As String, connectionString As String, dbConnection As Object, rst As Object, vResult As Variant
+        Dim pw As String, connectionString As String, dbConnection As Object, rst As Object, vResult As Variant, sDbName As String
         
         pw = "xlsysjs14"
-        connectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;DATA SOURCE=" & GetPref(9) & "XLReporting_JDE_Retail_DE.dat; Jet OLEDB:Database password=" & pw
+        sDbName = GetSQL("SELECT ParValue FROM XLControl WHERE Code = 'Database'")
+        connectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;DATA SOURCE=" & GetPref(9) & sDbName & "; Jet OLEDB:Database password=" & pw
         Set dbConnection = CreateObject("ADODB.Connection")
         dbConnection.Open connectionString
         Set rst = CreateObject("ADODB.Recordset")

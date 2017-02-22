@@ -99,10 +99,10 @@ End If
 
     sSQL = "UPDATE tblFacts AS a LEFT JOIN tblSKU AS b ON a.SKU = b.SKU " & _
       "SET a.PromoNonPromo = IIf(a.PromoNonPromo = 'NonPromo' AND b.PromotionalSKU = 'yes', 'Promo', a.PromoNonPromo)" & _
-      "WHERE a.PlanVersion = " & Quot(planVersion)
+      " WHERE a.PlanVersion = " & Quot(planVersion)
 
     XLImp sSQL, "Check promotional SKUs"
-    
+
 End Sub
 Function GetEmptyRecordSet(ByVal sTable As String) As Object
     Dim rsData As Object, connection As Object

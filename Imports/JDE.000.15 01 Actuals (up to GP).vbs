@@ -26,7 +26,7 @@ End If
                 rs.Fields("Forecast") = "no"
                 rs.Fields("SKU") = .Cells(row, 4)
                 rs.Fields("Customer") =  IIf(.Cells(row, 11)="#","D99997",.Cells(row,11)) 'If not assigned then dummy finance customer'
-                rs.Fields("PromoNonPromo") = "NonPromo"
+                rs.Fields("PromoNonPromo") = .Cells(row, 10)
                 rs.Fields("OnOffInvoice") = IIf(.Cells(row,6)="On Invoice","On",IIf(.Cells(row,6)="Off Invoice FIN","Off_F","Off_T"))
                 rs.Fields("Volume") = .Cells(row, 15) 'Vol RU Total Sales (KG)
                             rs.Fields("105_GOSFAP1") = .Cells(row, 23) + .Cells(row, 24) + .Cells(row, 25) + .Cells(row, 26) '10.1 Normal Sales + 10.2 Ret Gift Coupon + 10.3 Corr Seas Prod + 10.5 Excise

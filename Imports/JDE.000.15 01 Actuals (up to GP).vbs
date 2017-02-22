@@ -127,10 +127,11 @@ Function GetEmptyRecordSet(ByVal sTable As String) As Object
     Set GetEmptyRecordSet = rsData
 End Function
 Function GetDBConnection() As Object
-    Dim pw As String, connectionString As String, dbConnection As Object
+    Dim pw As String, connectionString As String, dbConnection As Object, sDbName As String
     
     pw = "xlsysjs14"
-    connectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;DATA SOURCE=" & GetPref(9) & "XLReporting_JDE_Retail_CH.dat; Jet OLEDB:Database password=" & pw
+    sDbName = GetSQL("SELECT ParValue FROM XLControl WHERE Code = 'Database'")
+    connectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;DATA SOURCE=" & GetPref(9) & sDbName & "; Jet OLEDB:Database password=" & pw
     Set dbConnection = CreateObject("ADODB.Connection")
     dbConnection.Open connectionString: dbConnection.Close
     Set GetDBConnection = dbConnection

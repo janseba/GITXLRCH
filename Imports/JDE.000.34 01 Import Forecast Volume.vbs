@@ -29,10 +29,10 @@ Sub XLCode()
                     rs.Fields("Customer") = .Cells(row, 5)
                     If .Cells(row, 9) = "Base" Then
                         rs.Fields("PromoNonPromo") = "NonPromo"
-                        rs.Fields("VolNonPromo") = .Cells(row, col)
+                        rs.Fields("VolNonPromo") = .Cells(row, col) * 1000
                     Else
                         rs.Fields("PromoNonPromo") = "Promo"
-                        rs.Fields("VolPromo") = .Cells(row, col)
+                        rs.Fields("VolPromo") = .Cells(row, col) * 1000
                     End If
                     rs.Fields("OnOffInvoice") = ""
                     rs.Fields("Volume") = .Cells(row, col) * 1000

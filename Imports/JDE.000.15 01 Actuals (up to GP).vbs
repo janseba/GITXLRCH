@@ -24,7 +24,7 @@ End If
                 rs.Fields("Period") = period
                 rs.Fields("SourceType") = "ActualsGP"
                 rs.Fields("Forecast") = "no"
-                rs.Fields("SKU") = .Cells(row, 4)
+                rs.Fields("SKU") = IIf(.Cells(row, 4)="#", "D-FINANCE", .Cells(row, 4)) 'If not assigned then dummy finance customer
                 rs.Fields("Customer") =  IIf(.Cells(row, 11)="#","D-FINANCE",.Cells(row,11)) 'If not assigned then dummy finance customer'
                 rs.Fields("PromoNonPromo") = IIf(.Cells(row, 10) = "No", "NonPromo", "Promo")
                 rs.Fields("OnOffInvoice") = IIf(.Cells(row,6)="On Invoice","On",IIf(.Cells(row,6)="Off Invoice FIN","Off_F","Off_T"))

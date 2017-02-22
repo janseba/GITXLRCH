@@ -103,6 +103,11 @@ End If
 
     XLImp sSQL, "Check promotional SKUs"
 
+    sSQL = "UPDATE tblFacts SET VolPromo = IIf(PromoNonPromo = 'Promo', Volume, 0), " & _
+      "VolNonPromo = IIf(PromoNonPromo = 'NonPromo', Volume, 0) WHERE PlanVersion = " & Quot(planVersion)
+
+    XLImp sSQL, "Split volumes into promo and non promo."
+
 End Sub
 Function GetEmptyRecordSet(ByVal sTable As String) As Object
     Dim rsData As Object, connection As Object
@@ -130,4 +135,3 @@ Function GetDBConnection() As Object
     dbConnection.Open connectionString: dbConnection.Close
     Set GetDBConnection = dbConnection
 End Function
-

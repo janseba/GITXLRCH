@@ -27,9 +27,15 @@ Sub XLCode()
                     rs.Fields("Forecast") = "yes"
                     rs.Fields("SKU") = .Cells(row, 7)
                     rs.Fields("Customer") = .Cells(row, 5)
-                    rs.Fields("PromoNonPromo") = IIf(.Cells(row, 9) = "Base", "NonPromo", "Promo")
+                    If .Cells(row, 9) = "Base" Then
+                        rs.Fields("PromoNonPromo") = "NonPromo"
+                        rs.Fields("VolNonPromo") = .Cells(row, col)
+                    Else
+                        rs.Fields("PromoNonPromo") = "Promo"
+                        rs.Fields("VolPromo") = .Cells(row, col)
+                    End If
                     rs.Fields("OnOffInvoice") = ""
-                    rs.Fields("Volume") = .Cells(row, col)
+                    rs.Fields("Volume") = .Cells(row, col) * 1000
                 End If
             Next col
         Next row

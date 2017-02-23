@@ -1,6 +1,6 @@
 Sub XLCode()
     Dim wks As Worksheet, row As Long, rs As Object, planVersion As String, period As String, dblValue As Double
-    Dim connection As Object, country As String, bladen As Variant, sht As Variant, col As Long
+    Dim connection As Object, country As String, bladen As Variant, sht As Variant, col As Long, sSQL As String
 
     planVersion = GetPar([A1], "Plan Version=")
     country = GetPar([A1], "Country=")
@@ -95,6 +95,17 @@ Sub XLCode()
     rs.UpdateBatch
     XLImp "SELECT COUNT(code) FROM Companies", rs.RecordCount & " lines were added to database in 1 batch update"
     connection.Close
+
+    sSQL = "UPDATE tblFacts AS a LEFT JOIN tblSKU AS b ON a.SKU = b.SKU " & _
+      "SET a.PromoNonPromo = IIf(a.PromoNonPromo = 'NonPromo' AND b.PromotionalSKU = 'yes', 'Promo', a.PromoNonPromo)" & _
+      " WHERE a.PlanVersion = " & Quot(planVersion)
+
+    XLImp sSQL, "Check promotional SKUs"
+
+    sSQL = "UPDATE tblFacts SET VolPromo = IIf(PromoNonPromo = 'Promo', Volume, 0), " & _
+      "VolNonPromo = IIf(PromoNonPromo = 'NonPromo', Volume, 0) WHERE PlanVersion = " & Quot(planVersion)
+
+    XLImp sSQL, "Split volumes into promo and non promo."
 End Sub
 Function GetEmptyRecordSet(ByVal sTable As String) As Object
     Dim rsData As Object, connection As Object

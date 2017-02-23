@@ -16,7 +16,7 @@ Sub XLCode()
     Set wks = ActiveSheet
 
     With wks
-        For row = 2 To wks.UsedRange.Rows.Count
+        For row = 5 To wks.UsedRange.Rows.Count
             For col = 9 + iStartMonth To 21
                 If Not IsEmpty(.Cells(row, 5)) And Not IsEmpty(.Cells(row, 7)) And .Cells(row, col) <> 0 And Not IsEmpty(.Cells(row, col)) Then
                     rs.AddNew

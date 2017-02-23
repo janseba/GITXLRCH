@@ -24,7 +24,7 @@ Sub XLCode()
                     rs.Fields("SourceType") = "AOP17"
                     rs.Fields("Forecast") = "yes"
                     rs.Fields("SKU") = .Cells(row, 5)
-                    rs.Fields("Customer") = .Cells(1, 4)
+                    rs.Fields("Customer") = .Cells(row, 4)
                     rs.Fields("PromoNonPromo") = "NonPromo"
                     rs.Fields("OnOffInvoice") = ""
                     If .Cells(row, 7) = "Volume" Then

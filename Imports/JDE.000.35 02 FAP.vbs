@@ -24,7 +24,7 @@ Sub XLCode()
                     rs.Fields("PlanVersion") = planVersion
                     rs.Fields("SKU") = .Cells(row, 3)
                     rs.Fields("Period") = CLng(Left(periodFrom, 4)) * 100 + period
-                    rs.Fields("FAPBox") = .Cells(row, period + 3)
+                    rs.Fields("FAPBox") = .Cells(row, 5)
                 Next period
             End If
         Next row

@@ -18,7 +18,7 @@ Sub XLCode()
     With wks
         For row = 6 To wks.UsedRange.Rows.Count
             If Not IsEmpty(.Cells(row, 3)) Then
-                For period = Right(periodFrom, 2) To 12
+                For period = Right(periodFrom, 2) To Right(periodTo, 2)
                     rs.AddNew
                     rs.Fields("Country") = country
                     rs.Fields("PlanVersion") = planVersion

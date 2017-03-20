@@ -40,6 +40,10 @@ Sub XLCode()
         "OR IIf(IsNull(tblSKU.WeightInKg), 0, tblSKU.WeightInKg) =0, 0, tblFAP.FAPBox / tblSKU.PackPerBox / tblSKU.WeightInKg) " & _
         "WHERE tblFAP.Country = " & Quot(country) & " AND PlanVersion = " & Quot(planVersion) & " AND Period BETWEEN " & Quot(periodFrom) & " AND " & _
         Quot(periodTo), "Calculate FAP per Kg"
+
+    XLImp "UPDATE tblFacts LEFT JOIN tblFAP ON tblFacts.PlanVersion = tblFAP.PlanVersion AND tblFacts.Period = tblFAP.Period AND tblFacts.SKU = tblFAP.SKU " & _
+        "SET tblFacts.FAP1 = tblFacts.Volume * tblFAP.FAPKg WHERE tblFacts.PlanVersion = " & Quot(planVersion) & " AND tblFacts.Forecast = 'yes' " & _
+        "AND tblFacts.Period BETWEEN " & Quot(periodFrom) & " AND " & Quot(periodTo) 
 End Sub
 Function GetEmptyRecordSet(ByVal sTable As String) As Object
     Dim rsData As Object, connection As Object

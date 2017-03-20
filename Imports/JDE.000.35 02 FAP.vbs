@@ -36,8 +36,9 @@ Sub XLCode()
     rs.UpdateBatch
     XLImp "SELECT COUNT(code) FROM Companies", rs.RecordCount & " lines were added to database in 1 batch update"
     connection.Close
-    XLImp "UPDATE tblFAP LEFT JOIN tblSKU ON tblFAP.SKU = tblSKU.SKU SET tblFAP.FAPKg = tblFAP.FAPBox / tblSKU.PackPerBox / tblSKU.WeightInKg" & _
-        "WHERE tblFAP.Country = " & Quot(country) & " AND PlanVersion = " & Quot(planVersion) & " AND Period BETWEEN " & Quot(periodFrom & " AND " & _
+    XLImp "UPDATE tblFAP LEFT JOIN tblSKU ON tblFAP.SKU = tblSKU.SKU SET tblFAP.FAPKg = IIf(IIf(IsNull(tblSKU.PackPerBox), 0, tblSKU.PackPerBox) = 0 " & _
+        "OR IIf(IsNull(tblSKU.WeightInKg), 0, tblSKU.WeightInKg) =0, 0, tblFAP.FAPBox / tblSKU.PackPerBox / tblSKU.WeightInKg) " & _
+        "WHERE tblFAP.Country = " & Quot(country) & " AND PlanVersion = " & Quot(planVersion) & " AND Period BETWEEN " & Quot(periodFrom) & " AND " & _
         Quot(periodTo), "Calculate FAP per Kg"
 End Sub
 Function GetEmptyRecordSet(ByVal sTable As String) As Object

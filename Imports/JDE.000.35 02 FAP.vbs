@@ -31,7 +31,7 @@ Sub XLCode()
     End With
     Set connection = GetDBConnection: connection.Open
     connection.Execute "DELETE FROM tblFAP WHERE PlanVersion = " & Quot(planVersion) & " AND Country = " & Quot(country) & _
-        "Period BETWEEN " & Quot(periodFrom) & " AND " & Quot(periodTo)
+        " AND Period BETWEEN " & Quot(periodFrom) & " AND " & Quot(periodTo)
     rs.ActiveConnection = connection
     rs.UpdateBatch
     XLImp "SELECT COUNT(code) FROM Companies", rs.RecordCount & " lines were added to database in 1 batch update"

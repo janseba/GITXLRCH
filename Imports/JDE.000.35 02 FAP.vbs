@@ -42,7 +42,11 @@ Sub XLCode()
         Quot(periodTo), "Calculate FAP per Kg"
 
     XLImp "UPDATE tblFacts LEFT JOIN tblFAP ON tblFacts.PlanVersion = tblFAP.PlanVersion AND tblFacts.Period = tblFAP.Period AND tblFacts.SKU = tblFAP.SKU " & _
-        "SET tblFacts.FAP1 = tblFacts.Volume * tblFAP.FAPKg WHERE tblFacts.PlanVersion = " & Quot(planVersion) & " AND tblFacts.Forecast = 'yes' " & _
+        "SET tblFacts.FAP1 = 0 WHERE tblFacts.PlanVersion = " & Quot(planVersion) & " AND tblFacts.Forecast = 'yes' " & _
+        "AND tblFacts.Period BETWEEN " & Quot(periodFrom) & " AND " & Quot(periodTo) 
+
+    XLImp "UPDATE tblFacts LEFT JOIN tblFAP ON tblFacts.PlanVersion = tblFAP.PlanVersion AND tblFacts.Period = tblFAP.Period AND tblFacts.SKU = tblFAP.SKU " & _
+        "SET tblFacts.FAP1 = tblFacts.Volume * IIf(ISNULL(tblFAP.FAPKg), 0, tblFAP.FAPKg) WHERE tblFacts.PlanVersion = " & Quot(planVersion) & " AND tblFacts.Forecast = 'yes' " & _
         "AND tblFacts.Period BETWEEN " & Quot(periodFrom) & " AND " & Quot(periodTo) 
 End Sub
 Function GetEmptyRecordSet(ByVal sTable As String) As Object

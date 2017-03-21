@@ -77,6 +77,7 @@ SELECT [a.101_salesreturnsoffinvtas]
        b.cupsperkg,
        b.bridgehierarchy,
        b.reportingcategory,
+       b.PromotionalSKU,
        c.customername,
        c.planningcustomer,
        c.conditioncustomer,

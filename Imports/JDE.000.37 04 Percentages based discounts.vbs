@@ -1,10 +1,10 @@
 Sub XLCode()
     Dim wks As Worksheet, row As Long, rs As Object, period As Integer, planVersion As String, periodFrom As String
-    Dim connection As Object, startPeriod As Integer, periodTo As String, noPeriods As Integer, tbl As ListObject
-    Dim vData As Variant
-    Set wks = ActiveSheet
-    Set tbl = wks.ListObjects("tblNIS")
-    vData = tbl.DataBodyRange
+    Dim connection As Object, startPeriod As Integer, periodTo As String, noPeriods As Integer, vSheetNames As Variant
+    Dim vWksName As Variant
+    
+    vSheetNames = Array("Headquarters", "Growth Bonus", "YER", "Payment Terms", "Placement", "Folders")
+    
     planVersion = GetPar([A1], "Plan Version=")
     periodFrom = GetPar([A1], "Period From=")
     periodTo = GetPar([A1], "Period To=")
@@ -15,20 +15,13 @@ Sub XLCode()
     If GetSQL("SELECT Locked FROM sources WHERE Source = " & Quot(planVersion)) = "y" Then
         XLImp "ERROR", "The plan version has been locked for input": Exit Sub
     End If
-    Set rs = GetEmptyRecordSet("SELECT * FROM tblNIS WHERE PlanVersion IS NULL")
+    Set rs = GetEmptyRecordSet("SELECT * FROM tblPercentageDiscounts WHERE PlanVersion IS NULL")
     
-        For row = LBound(vData) To UBound(vData)
-            For period = Right(periodFrom, 2) To Right(periodTo, 2)
-                rs.AddNew
-                rs.Fields("PlanVersion") = planVersion
-                rs.Fields("Customer") = vData(row, 2)
-                rs.Fields("SKU") = vData(row, 4)
-                rs.Fields("Period") = CLng(Left(periodFrom, 4)) * 100 + period
-                rs.Fields("NISBox") = vData(row, 7)
-                rs.Fields("PaymentDiscount") = vData(row, 8)
-            Next period
-        Next row
-    
+    For Each vWksName In vSheetNames
+        Set wks = ActiveWorkbook.Worksheets(vWksName)
+        Debug.Print wks.UsedRange.Address
+    Next vWksName
+       
     Set connection = GetDBConnection: connection.Open
     connection.Execute "DELETE FROM tblNIS WHERE PlanVersion = " & Quot(planVersion) & _
         " AND Period BETWEEN " & Quot(periodFrom) & " AND " & Quot(periodTo)
@@ -84,3 +77,4 @@ Function GetDBConnection() As Object
     dbConnection.Open connectionString: dbConnection.Close
     Set GetDBConnection = dbConnection
 End Function
+

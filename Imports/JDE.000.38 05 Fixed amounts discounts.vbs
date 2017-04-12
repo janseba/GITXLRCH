@@ -18,6 +18,7 @@ Sub XLCode()
                 dealTo = .Cells(8, iCol)
                 'Check if Customer Nr and Amount are filled and if forecast periodFrom <= end period of deal
                 If Not IsEmpty(.Cells(6, iCol)) And .Cells(10, iCol) <> 0 And periodFrom <= dealTo Then
+                    sPrdha3 = ""
                     'make a list of prdha3
                     For iRow = 14 To .UsedRange.Rows.Count
                         If .Cells(iRow, iCol) = "X" Then sPrdha3 = sPrdha3 & "," & Quot(.Cells(iRow, 1))

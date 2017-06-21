@@ -41,7 +41,7 @@ Sub XLCode()
         Next row
     End With
     Set connection = GetDBConnection: connection.Open
-    connection.Execute "DELETE FROM tblFacts WHERE SourceType = 'Volume' AND PlanVersion = " & Quot(planVersion) & " AND Country = " & Quot(country)
+    connection.Execute "DELETE FROM tblFacts WHERE Forecast = 'yes' AND PlanVersion = " & Quot(planVersion) & " AND Country = " & Quot(country)
     rs.ActiveConnection = connection
     rs.UpdateBatch
     XLImp "SELECT COUNT(code) FROM Companies", rs.RecordCount & " lines were added to database in 1 batch update"

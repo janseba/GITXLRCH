@@ -1,41 +1,60 @@
 Sub XLCode()
     Dim wks As Worksheet, row As Long, rs As Object, period As Integer, planVersion As String, periodFrom As String, periodTo As String
-    Dim connection As Object, country As String, startPeriod As Integer, endPeriod As Integer, rngInput As Range
+    Dim connection As Object, country As String, startPeriod As Integer, endPeriod As Integer, rngInput As Range, forecastOrActual As String
+    Dim sourceType As String, startPlanVersion, sheetNames As Variant, sheetName As Variant
 
+    sheetNames = Array("SGA", "Warehousing", "Distribution")
     planVersion = GetPar([A1], "Plan Version=")
     country = GetPar([A1], "Country=")
     periodFrom = GetPar([A1], "Period From=")
     periodTo = GetPar([A1], "Period To=")
+    forecastOrActual = GetPar([A1], "Forecast / Actuals=")
     startPeriod = CInt(Right(periodFrom, 2))
     endPeriod = CInt(Right(periodTo, 2))
+    startPlanVersion = GetSQL("SELECT FromPeriod FROM sources WHERE Source = " & Quot(planVersion))
+    sourceType = GetSQL("SELECT SourceType FROM Sources WHERE Source = " & Quot(planVersion))
+    
+    If forecastOrActual = "Forecast" And sourceType = "ACTUALS" Then
+        XLImp "ERROR", "Your trying to upload forecast data in a plan version for Actuals": Exit Sub
+    End If
+    If GetSQL("SELECT Locked FROM sources WHERE Source = " & Quot(planVersion)) = "y" Then
+        XLImp "ERROR", "The plan version has been locked for input": Exit Sub
+    End If
+    
     Set rs = GetEmptyRecordSet("SELECT * FROM tblFacts WHERE PlanVersion IS NULL")
 
-    Set wks = ActiveSheet
-    Set rngInput = wks.Names(wks.Name & "!XLRInput").RefersToRange
-
-    With rngInput
-        For row = 3 To rngInput.Rows.Count
-            If Not IsEmpty(.Cells(row, 1)) Then
-                For period = startPeriod To endPeriod
-                    If .Cells(row, period + 1) <> 0 Then
-                        rs.AddNew
-                        rs.Fields("Country") = country
-                        rs.Fields("PlanVersion") = planVersion
-                        rs.Fields("Period") = CLng(Left(periodFrom, 4)) * 100 + period
-                        rs.Fields("SourceType") = "SGAActuals"
-                        rs.Fields("Forecast") = "no"
-                        rs.Fields("sku") = wks.Names(wks.Name & "!XLRsku").RefersToRange.Value
-                        rs.Fields("Customer") = wks.Names(wks.Name & "!XLRcustomer").RefersToRange.Value
-                        rs.Fields("PromoNonPromo") = "NonPromo"
-                        rs.Fields(CStr(.Cells(row, 1))) = -1 * IIf(IsError(.Cells(row, period + 1)), 0, .Cells(row, period + 1))
-                    End If
-                Next period
-            End If
-        Next row
-    End With
+    For Each sheetName In sheetNames
+        Set wks = ActiveWorkbook.Sheets(sheetName)
+        Set rngInput = wks.Names(wks.Name & "!XLRInput").RefersToRange
+    
+        With rngInput
+            For row = 3 To rngInput.Rows.Count
+                If Not IsEmpty(.Cells(row, 1)) Then
+                    For period = startPeriod To endPeriod
+                        If .Cells(row, period + 1) <> 0 Then
+                            rs.AddNew
+                            rs.Fields("Country") = country
+                            rs.Fields("PlanVersion") = planVersion
+                            rs.Fields("Period") = CLng(Left(periodFrom, 4)) * 100 + period
+                            rs.Fields("SourceType") = "SGA and WD"
+                            If CLng(Left(periodFrom, 4)) * 100 + period < startPlanVersion Or forecastOrActual = "Actuals" Then
+                                rs.Fields("Forecast") = "no"
+                            Else
+                                rs.Fields("Forecast") = "yes"
+                            End If
+                            rs.Fields("sku") = wks.Names(wks.Name & "!XLRsku").RefersToRange.Value
+                            rs.Fields("Customer") = wks.Names(wks.Name & "!XLRcustomer").RefersToRange.Value
+                            rs.Fields("PromoNonPromo") = "NonPromo"
+                            rs.Fields(CStr(.Cells(row, 1))) = -1 * IIf(IsError(.Cells(row, period + 1)), 0, .Cells(row, period + 1))
+                        End If
+                    Next period
+                End If
+            Next row
+        End With
+    Next sheetName
 
     Set connection = GetDBConnection: connection.Open
-    connection.Execute "DELETE FROM tblFacts WHERE SourceType = 'SGAActuals' AND PlanVersion = " & Quot(planVersion) & " AND Country = " & _
+    connection.Execute "DELETE FROM tblFacts WHERE SourceType = 'SGA and WD' AND PlanVersion = " & Quot(planVersion) & " AND Country = " & _
         Quot(country) & " AND Period BETWEEN " & Quot(periodFrom) & " AND " & Quot(periodTo)
     rs.ActiveConnection = connection
     rs.UpdateBatch

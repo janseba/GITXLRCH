@@ -1,4 +1,4 @@
-    Sub XLCode()
+Sub XLCode()
 
     Dim template As String, wksData As Worksheet, vNames As Variant, i As Long, wksReport As Worksheet
     Dim Period As Long, wkbTemplate As Workbook, wksValidatie As Worksheet, plan As String, ref1 As String, ref2 As String
@@ -86,7 +86,7 @@
         
         'SKU validation
         Set rng = wksValidatie.[D4]
-        vData = GetDBData("SELECT DISTINCT ProfitCenter, Prdha2, AlternativeHierarchy FROM tblSKU WHERE ProfitCenter IS NOT NULL AND Prdha2 IS NOT NULL AND AlternativeHierarchy IS NOT NULL ORDER BY ProfitCenter, Prdha2, AlternativeHierarchy")
+        vData = GetDBData("SELECT DISTINCT ProfitCenter, Prdha2, Prdha3 FROM tblSKU WHERE ProfitCenter IS NOT NULL AND Prdha2 IS NOT NULL AND Prdha3 IS NOT NULL ORDER BY ProfitCenter, Prdha2, Prdha3")
         rng.Resize(UBound(vData, 2) + 1, UBound(vData, 1) + 1) = Application.Transpose(vData)
         Names.Add "tbl.SKUGroups", rng.Offset(-2).Resize(UBound(vData, 2) + 3, UBound(vData, 1) + 1)
         
@@ -104,7 +104,7 @@
 
         'Level3
         Set rng = wksValidatie.[I4]
-        vData = GetDBData("SELECT DISTINCT AlternativeHierarchy FROM tblSKU WHERE AlternativeHierarchy IS NOT NULL ORDER BY AlternativeHierarchy")
+        vData = GetDBData("SELECT DISTINCT Prdha3 FROM tblSKU WHERE Prdha3 IS NOT NULL ORDER BY Prdha3")
         rng.Resize(UBound(vData, 2) + 1) = Application.Transpose(vData)
         Names.Add "lst.Level3", rng.Offset(-2).Resize(UBound(vData, 2) + 3)
         

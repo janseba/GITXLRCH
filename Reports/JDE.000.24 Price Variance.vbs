@@ -28,11 +28,11 @@ Sub XLCode()
     ActiveWorkbook.Names("ptrPlanVersionNew").RefersToRange.Value = planNew
     
     'Extract data
-    baseData = Application.Transpose(GetDBData("SELECT DISTINCT PlanningCustomer, IIf(ISNULL(Prdha4),'#NA',Prdha4), IIf(ISNULL(Prdha4),'#NA',Prdha3), IIf(ISNULL(Prdha4),'#NA',Prdha2) FROM View_PLBase WHERE PlanVersion = " & Quot(planNew) & _
-        " OR PlanVersion = " & Quot(planOld) & " AND Mnth BETWEEN " & monthFrom & " AND " & monthTo))
+    baseData = Application.Transpose(GetDBData("SELECT DISTINCT PlanningCustomer, IIf(ISNULL(Prdha4),'#NA',Prdha4), IIf(ISNULL(Prdha4),'#NA',Prdha3), IIf(ISNULL(Prdha4),'#NA',Prdha2) FROM View_PLBase WHERE (PlanVersion = " & Quot(planNew) & _
+        " OR PlanVersion = " & Quot(planOld) & ") AND Mnth BETWEEN " & monthFrom & " AND " & monthTo))
     detailsData = Application.Transpose(GetDBData("SELECT PlanVersion, PlanningCustomer, IIf(ISNULL(Prdha4), '#NA', Prdha4), SUM(Volume), SUM(NIS) " & _
         ", SUM(TPR), SUM(BDF), SUM(BMC), SUM(NOS), SUM(COGS), SUM(GP) " & _
-        "FROM View_PLBase WHERE PlanVersion = " & Quot(planNew) & " OR PlanVersion = " & Quot(planOld) & " AND Mnth BETWEEN " & monthFrom & _
+        "FROM View_PLBase WHERE (PlanVersion = " & Quot(planNew) & " OR PlanVersion = " & Quot(planOld) & ") AND Mnth BETWEEN " & monthFrom & _
         " AND " & monthTo & " GROUP BY Prdha4, PlanningCustomer, PlanVersion"))
 
     'Fill Template
@@ -44,6 +44,8 @@ Sub XLCode()
     'Add Pivots
     CreatePivotByCustomer
     CreatePivotByCategory
+    
+    ActiveWorkbook.Sheets("By Customer").Activate
 
 End Sub
 

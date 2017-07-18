@@ -69,7 +69,7 @@ Sub XLCode()
     UpdateField "TermsOfPayment", "Payment Terms", Planversion, PeriodFrom, PeriodTo
     UpdateField "Placement", "Placement", Planversion, PeriodFrom, PeriodTo
     UpdateField "Folders", "Folders", Planversion, PeriodFrom, PeriodTo
-    UpdateField "ListingFees", "Listing Fees", Planversion, PeriodFrom, PeriodTo
+    UpdateField "ListingFeesFc", "Listing Fees", Planversion, PeriodFrom, PeriodTo
 
 End Sub
 Sub UpdateField(ByVal fieldName As String, ByVal category As String, ByVal Planversion As String, ByVal PeriodFrom As String, ByVal PeriodTo As String)

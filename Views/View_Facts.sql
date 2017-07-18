@@ -26,7 +26,7 @@ SELECT [a.101_salesreturnsoffinvtas]
        + [a.discount2fix] 
        + [a.cpincentivesoffinvtas] 
        + [a.discount2percfap1] + [a.hq] + [a.growth] 
-       + [a.yer] + [a.termsofpayment] + [a.listingfees]        AS BDF, 
+       + [a.yer] + [a.termsofpayment] + [a.ListingFeesFc]        AS BDF, 
        [a.106_tabmcoffinvtas] 
        + [a.18royaltieslncome3rdparty] 
        + [a.106_tabmcoffinvfin] 
@@ -66,7 +66,7 @@ SELECT [a.101_salesreturnsoffinvtas]
        oninvoiceconditions + fap2                              AS NISInclCT, 
        a.discount5percfap1 + a.discount5percnis 
        + a.discount5eur + a.discount5fix                       AS Discount5, 
-       [a.17_1onelistfee] + [a.listingfees]                    AS ListingFees, 
+       [a.17_1onelistfee] + [a.ListingFeesFc]                    AS ListingFees, 
        [a.15_2specialoccasion]                                 AS FixedAmounts, 
        a.*, 
        b.description                                           AS SKUDescription 

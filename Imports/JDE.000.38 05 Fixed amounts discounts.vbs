@@ -4,8 +4,8 @@ Sub XLCode()
     Dim NIS As Double, rsNIS As Object, rsFacts As Object, connection As Object, AllocatedDiscount As Double, rsSKU As Object
     Dim sSKU As String, vWsData As Variant, colWsData As Collection, i As Integer, valueField As String, discountCode As String, discountInfo As Variant
     
-    vWorksheets = Array("TPR", "Growth Bonus", "YER", "ECR", "Special Occasion", "Placement", "FoldersAds")
-    vWsData = Array("TPR|Discount4Fix", "GB|Discount2Fix", "YER|Discount2Fix", "ECR|Discount2Fix", "SO|Discount2Fix", "PLA|Discount3Fix", "Fol|Discount3Fix")
+    vWorksheets = Array("TPR", "Growth Bonus", "YER", "ECR", "Special Occasion", "Placement", "FoldersAds", "Listing Fee")
+    vWsData = Array("TPR|Discount4Fix", "GB|Discount2Fix", "YER|Discount2Fix", "ECR|Discount2Fix", "SO|Discount2Fix", "PLA|Discount3Fix", "Fol|Discount3Fix", "LF|ListingFeesFC")
     Set colWsData = New Collection
     For i = LBound(vWorksheets) To UBound(vWorksheets)
         colWsData.Add vWsData(i), vWorksheets(i)

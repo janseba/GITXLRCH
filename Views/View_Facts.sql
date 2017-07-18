@@ -25,19 +25,14 @@ SELECT [a.101_salesreturnsoffinvtas]
        + [a.discount5percfap1] + [a.discount5eur] 
        + [a.discount2fix] 
        + [a.cpincentivesoffinvtas] 
-       + [a.discount2percfap1]
-       + [a.HQ]
-       + [a.Growth]
-       + [a.YER]
-       + [a.TermsOfPayment]                                 AS BDF, 
+       + [a.discount2percfap1] + [a.hq] + [a.growth] 
+       + [a.yer] + [a.termsofpayment]                          AS BDF, 
        [a.106_tabmcoffinvtas] 
        + [a.18royaltieslncome3rdparty] 
        + [a.106_tabmcoffinvfin] 
        + [a.discount3percfap1] 
        + [a.discount3percnis] + [a.discount3eur] 
-       + [a.discount3fix]
-       + [a.Placement]
-       + [a.Folders]                                      AS BMC, 
+       + [a.discount3fix] + [a.placement] + [a.folders]        AS BMC, 
        [a.greendot] + [a.22_5ecotax] + [a.ecotax]              AS TotGreendot, 
        [a.22_3_5extracosts] + [a.displaycosts]                 AS 
        TotDisplayCosts, 

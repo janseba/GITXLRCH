@@ -30,7 +30,7 @@ WHERE  b.sku IS NOT NULL
               OR Isnull(b.packperbox) ) 
 UNION ALL 
 SELECT DISTINCT a.planversion, 
-                a.sku + ' - ' + a.customer + '-' + a.period, 
+                a.sku + '-' + a.customer + '-' + a.period, 
                 'No NIS for SKU and Customer in period' 
 FROM   tblfacts AS a 
        LEFT JOIN tblnis AS b 

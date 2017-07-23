@@ -45,7 +45,9 @@ SELECT a.planversion,
        Sum(a.costofgoodsexclct)     AS COGS, 
        Sum(a.totdisplaycosts)       AS DisplayCosts, 
        Sum(a.totmb)                 AS MB, 
-       Sum(a.totgreendot)           AS Greendot 
+       Sum(a.totgreendot)           AS Greendot,
+       Sum(a.ListingFees)           AS ListingFees,
+       Sum(a.BDFexLF)               AS BDFexLF
 FROM   (view_facts AS a 
         LEFT JOIN tblsku AS b 
                ON a.sku = b.sku) 

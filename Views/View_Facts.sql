@@ -26,7 +26,8 @@ SELECT [a.101_salesreturnsoffinvtas]
        + [a.discount2fix] 
        + [a.cpincentivesoffinvtas] 
        + [a.discount2percfap1] + [a.hq] + [a.growth] 
-       + [a.yer] + [a.termsofpayment] + [a.ListingFeesFc]        AS BDF, 
+       + [a.yer] + [a.termsofpayment] + [a.ListingFeesFc]        AS BDF,
+       BDF - ListingFees AS BDFexLF, 
        [a.106_tabmcoffinvtas] 
        + [a.18royaltieslncome3rdparty] 
        + [a.106_tabmcoffinvfin] 

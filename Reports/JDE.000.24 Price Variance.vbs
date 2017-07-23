@@ -31,7 +31,7 @@ Sub XLCode()
     baseData = Application.Transpose(GetDBData("SELECT DISTINCT PlanningCustomer, IIf(ISNULL(Prdha4),'#NA',Prdha4), IIf(ISNULL(Prdha4),'#NA',Prdha3), IIf(ISNULL(Prdha4),'#NA',Prdha2) FROM View_PLBase WHERE (PlanVersion = " & Quot(planNew) & _
         " OR PlanVersion = " & Quot(planOld) & ") AND Mnth BETWEEN " & monthFrom & " AND " & monthTo))
     detailsData = Application.Transpose(GetDBData("SELECT PlanVersion, PlanningCustomer, IIf(ISNULL(Prdha4), '#NA', Prdha4), SUM(Volume), SUM(NIS) " & _
-        ", SUM(TPR), SUM(BDF), SUM(BMC), SUM(NOS), SUM(COGS), SUM(GP) " & _
+        ", SUM(TPR), SUM(BDF), SUM(BDFexLF), SUM(ListingFees), SUM(BMC), SUM(NOS), SUM(COGS), SUM(GP) " & _
         "FROM View_PLBase WHERE (PlanVersion = " & Quot(planNew) & " OR PlanVersion = " & Quot(planOld) & ") AND Mnth BETWEEN " & monthFrom & _
         " AND " & monthTo & " GROUP BY Prdha4, PlanningCustomer, PlanVersion"))
 
@@ -106,7 +106,8 @@ Sub CreatePivotByCustomer()
     CreatePivotSum pt, "Delta Volume", ChrW(916) & " Volume", "#,##0"
     CreatePivotSum pt, "Delta NIS", ChrW(916) & " NIS", "#,##0"
     CreatePivotSum pt, "Delta TPR", ChrW(916) & " TPR", "#,##0"
-    CreatePivotSum pt, "Delta BDF", ChrW(916) & " BDF", "#,##0"
+    CreatePivotSum pt, "Delta BDFexLF", ChrW(916) & " BDFexLF", "#,##0"
+    CreatePivotSum pt, "Delta LF", ChrW(916) & " LF", "#,##0"
     CreatePivotSum pt, "Delta BMC", ChrW(916) & " BMC", "#,##0"
     CreatePivotSum pt, "Delta NOS", ChrW(916) & " NOS", "#,##0"
     CreatePivotSum pt, "Delta COGS", ChrW(916) & " COGS", "#,##0"
@@ -148,7 +149,8 @@ Sub CreatePivotByCategory()
     CreatePivotSum pt, "Delta Volume", ChrW(916) & " Volume", "#,##0"
     CreatePivotSum pt, "Delta NIS", ChrW(916) & " NIS", "#,##0"
     CreatePivotSum pt, "Delta TPR", ChrW(916) & " TPR", "#,##0"
-    CreatePivotSum pt, "Delta BDF", ChrW(916) & " BDF", "#,##0"
+    CreatePivotSum pt, "Delta BDFexLF", ChrW(916) & " BDFexLF", "#,##0"
+    CreatePivotSum pt, "Delta LF", ChrW(916) & " LF", "#,##0"
     CreatePivotSum pt, "Delta BMC", ChrW(916) & " BMC", "#,##0"
     CreatePivotSum pt, "Delta NOS", ChrW(916) & " NOS", "#,##0"
     CreatePivotSum pt, "Delta COGS", ChrW(916) & " COGS", "#,##0"
